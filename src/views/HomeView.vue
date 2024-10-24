@@ -1,9 +1,14 @@
 <script setup lang="ts">
-import TheWelcome from '../components/TheWelcome.vue'
+
+import UserInput from '../components/ui/UserInput.vue'
+
 </script>
 
 <template>
   <main>
-    <TheWelcome />
+    <h1>dfasfsd</h1>
+    <UserInput type="input" inputType="email" title="input" textError="dsadas" placeholder="Введите значение" />
+    <UserInput type="area" title="area" textError="" placeholder="Введите значение" />
+
   </main>
 </template>
