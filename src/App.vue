@@ -1,11 +1,18 @@
 <script setup lang="ts">
 
+import AppHeader from "@/components/layout/AppHeader.vue";
+
 </script>
 
 <template>
-  <RouterView />
+  <AppHeader/>
+  <main class="app-main">
+    <RouterView/>
+  </main>
 </template>
 
-<style>
-
+<style lang="scss">
+.app-main {
+  background-color: map-get($colors, 'dark');
+}
 </style>

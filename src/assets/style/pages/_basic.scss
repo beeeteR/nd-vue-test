@@ -2,6 +2,7 @@
 
 * {
     font-family: "Montserrat", sans-serif;
+    color: map-get($colors, 'white');
 }
 
 h1 {
@@ -34,4 +35,12 @@ a {
     &:hover {
         color: map-get($colors, "white");
     }
+}
+
+
+// CLASSES
+
+
+.section-wrapper {
+    padding: 40px 160px;
 }

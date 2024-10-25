@@ -1,21 +1,34 @@
 <script setup lang="ts">
-
-import UserInput from '../components/ui/UserInput.vue'
-import BaseBtn from "@/components/ui/BaseBtn.vue";
-import BaseNote from "@/components/pages/note/BaseNote.vue";
-
-function result(arg: any) {
-  console.log(arg)
-}
-
+import DialogAuth from "@/components/dialog/DialogAuth.vue";
 </script>
 
 <template>
-  <main>
-    <h1>dfasfsd</h1>
-    <BaseBtn title="basebtn" :func="() => 'result func'" @btnClicked="result"/>
-    <UserInput type="input" inputType="email" title="input" textError="dsadas" placeholder="Введите значение"/>
-    <UserInput type="area" title="area" textError="" placeholder="Введите значение"/>
-    <BaseNote title="Заголовок" text="А также явные признаки победы институционализации могут быть объединены в целые кластеры себе подобных."/>
-  </main>
+  <div class="page-home section-wrapper">
+    <div class="page-home__title">
+      <h1>Мои заметки</h1>
+      <h3 class="slogan">Не забывай о важном, храни его в облаке.</h3>
+    </div>
+    <img src="@/assets/img/home-img.png" alt="" class="page-home__img">
+    <DialogAuth />
+  </div>
 </template>
+
+<style lang="scss">
+.page-home {
+  display: flex;
+  align-items: center;
+  padding-top: 0;
+  padding-bottom: 0;
+
+  &__title {
+    .slogan {
+      color: map-get($colors, 'gray');
+      width: 400px;
+    }
+  }
+
+  &__img {
+    max-width: 900px;
+  }
+}
+</style>

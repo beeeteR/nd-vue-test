@@ -1,11 +1,13 @@
 <script setup lang="ts">
 
+import {computed} from "vue";
+
 interface IBaseBtnProps {
   round?: true,
   title?: string,
-  icon?: string,
+  iconFileName?: string,
   disabled?: true,
-  func: (...args: any[]) => any
+  func?: (...args: any[]) => any
 }
 
 type TBaseBtnEmits = {
@@ -16,14 +18,16 @@ const props = defineProps<IBaseBtnProps>()
 const emits = defineEmits<TBaseBtnEmits>()
 
 function btnClicked() {
-  emits('btnClicked', props.disabled ? 'disabled' : props.func())
+  emits('btnClicked', props.disabled ? 'disabled' : props.func ? props.func() : 'clicked')
 }
+
+const iconPath = computed(() => `@/assets/icons/${props.icon}`)
 
 </script>
 
 <template>
   <button class="btn" :class="{'btn-round': round}" :disabled="disabled" @click="btnClicked">
-    <img src="@/assets/icons/login.svg" alt="Фолбэк">
+<!--    <img :src="require(iconPath)" alt="btn-icon">-->
     <span class="btn__title">{{ title }}</span>
   </button>
 
