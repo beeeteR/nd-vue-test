@@ -19,7 +19,7 @@ const methods = {
 }
 
 
-export const userApiMethods = {
+export const notesApiMethods = {
   getNotes: async (token: token) =>
     await axios.get(API_SETTINGS.url + methods.get.getNotes,
       {

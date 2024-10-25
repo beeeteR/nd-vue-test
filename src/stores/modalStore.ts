@@ -2,7 +2,7 @@ import { defineStore } from 'pinia'
 
 export const useModalStore = defineStore('modalStore', {
   state: () => ({
-    modalState: false as boolean
+    modalState: false
   }),
   getters: {
     getModalState: (state) => state.modalState

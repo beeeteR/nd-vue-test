@@ -14,5 +14,6 @@ import AppHeader from "@/components/layout/AppHeader.vue";
 <style lang="scss">
 .app-main {
   background-color: map-get($colors, 'dark');
+  height: 100%;
 }
 </style>

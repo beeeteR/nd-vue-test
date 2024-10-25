@@ -1,5 +1,6 @@
 import {API_SETTINGS, type token} from './main'
 import axios from "axios";
+import {requestHandler} from "@/utils/api/apiHandlers";
 
 interface IRegister {
   email: string,
@@ -33,8 +34,8 @@ export const userApiMethods = {
         headers: {Authorization: `Bearer ${token}`}
       })
   },
-  register: async (data: IRegister) =>
-    await axios.post(API_SETTINGS.url + methods.post.register, data),
+  register: (data: IRegister) =>
+    requestHandler(axios.post(API_SETTINGS.url + methods.post.register, data)),
   getToken: async (data: IGetToken) =>
     await axios.post(API_SETTINGS.url + methods.post.getToken, data),
   logout: async (token: token) => await
