@@ -1,3 +1,9 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&family=Saira+Semi+Condensed:wght@100;200;300;400;500;600;700;800;900&display=swap');
+
+* {
+    font-family: "Montserrat", sans-serif;
+}
+
 h1 {
     font-weight: 900;
     font-size: 104px;
@@ -28,36 +34,4 @@ a {
     &:hover {
         color: map-get($colors, "white");
     }
-}
-
-// CLASSES
-
-.btn {
-    background-color: map-get($colors, "green-light");
-    color: map-get($colors, "white");
-    border-radius: 2rem;
-    padding: 12px 24px;
-    font-weight: 500;
-    font-size: 20px;
-    line-height: 32px;
-    &:hover {
-        background-color: map-get($colors, "green-middle");
-    }
-    &:active {
-        background-color: map-get($colors, "green-dark");
-    }
-    &:disabled {
-        background-color: map-get($colors, "gray");
-    }
-
-    &-round {
-        width: auto;
-        aspect-ratio: 1;
-        border-radius: 50%;
-    }
-}
-
-.input-wrapper {
-    display: flex;
-    flex-direction: column;
 }
