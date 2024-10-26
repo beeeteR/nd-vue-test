@@ -2,7 +2,7 @@ import {API_SETTINGS, type token} from './main'
 import axios from "axios";
 import {requestHandler} from "@/utils/api/apiHandlers";
 
-interface IRegister {
+export interface IRegister {
   email: string,
   password: string
   confirm_password: string
@@ -28,18 +28,8 @@ const methods = {
 
 
 export const userApiMethods = {
-  getInfoForToken: async (token: token) => {
-    await axios.get(API_SETTINGS.url + methods.get.getInfoForToken,
-      {
-        headers: {Authorization: `Bearer ${token}`}
-      })
-  },
-  register: (data: IRegister) =>
-    requestHandler(axios.post(API_SETTINGS.url + methods.post.register, data)),
-  getToken: async (data: IGetToken) =>
-    await axios.post(API_SETTINGS.url + methods.post.getToken, data),
-  logout: async (token: token) => await
-    axios.delete(API_SETTINGS.url + methods.delete.logout, {
-      headers: {Authorization: `Bearer ${token}`}
-    })
+  getInfoForToken: (token: token) => requestHandler(axios.get(API_SETTINGS.url + methods.get.getInfoForToken, {headers: {Authorization: `Bearer ${token}`}})),
+  register: (data: IRegister) => requestHandler(axios.post(API_SETTINGS.url + methods.post.register, data)),
+  getToken: (data: IGetToken) => requestHandler(axios.post(API_SETTINGS.url + methods.post.getToken, data)),
+  logout: (token: token) => requestHandler(axios.delete(API_SETTINGS.url + methods.delete.logout, {headers: {Authorization: `Bearer ${token}`}}))
 }

@@ -1,5 +1,7 @@
 <script setup lang="ts">
 import DialogAuth from "@/components/dialog/DialogAuth.vue";
+
+
 </script>
 
 <template>

@@ -2,19 +2,15 @@
 import DialogBase from "@/components/dialog/DialogBase.vue";
 import UserInput from "@/components/ui/UserInput.vue";
 import BaseBtn from "@/components/ui/BaseBtn.vue";
-import {computed, onMounted, onUnmounted, reactive, ref} from "vue";
-import {useRoute} from "vue-router";
-import {userApiMethods} from "@/utils/api/user";
-import {type IAnswerRequestHandler, requestHandler} from "@/utils/api/apiHandlers";
+import {computed, onMounted, onUnmounted, reactive, ref, watch} from "vue";
+import {useRoute, useRouter} from "vue-router";
+import {type IRegister} from "@/utils/api/user";
+import {tryAuth} from '@/composables/auth'
+import {useModalStore} from "@/stores/modalStore";
+import {useUserStore} from "@/stores/userStore";
 
 
-interface IAuthData {
-  email: string,
-  password: string
-  confirm_password: string
-}
-
-const authData = reactive<IAuthData>({
+const authData = reactive<IRegister>({
   email: '',
   password: '',
   confirm_password: ''
@@ -24,7 +20,6 @@ const loginBtnInDialogBody = ref<boolean>()
 const route = computed(() => useRoute())
 const isReg = computed(() => route.value.name === 'reg')
 const textForBtn = computed(() => isReg.value ? 'Зарегистрироваться' : 'Войти')
-
 
 onMounted(() => {
   window.addEventListener('resize', changeStateBtnLoginInDialogBody)
@@ -37,16 +32,15 @@ function changeStateBtnLoginInDialogBody() {
   loginBtnInDialogBody.value = window.innerWidth <= 540
 }
 
-function changeValueInput(value: string, who: keyof IAuthData) {
+function changeValueInput(value: string, who: keyof IRegister) {
   authData[who] = value
 }
 
-async function tryAuth() {
-  if (isReg.value) {
-    const result = await userApiMethods.register(authData)
-
-    if (result.error) errors.value = Array.isArray(result.errorMessage) ? result.errorMessage : [result.errorMessage]
-    console.log(result)
+async function auth() {
+  const resultAuth = await tryAuth(isReg.value, authData)
+  if (resultAuth !== 'ok') errors.value = resultAuth
+  else {
+    useModalStore().changeModalState()
   }
 }
 
@@ -58,14 +52,14 @@ async function tryAuth() {
       <h2>Вход в ваш аккаунт</h2>
     </template>
     <template #dialogBody>
-      <form class="dialog-auth__form">
+      <form class="dialog-auth__form" autocomplete="on">
         <UserInput title="Email" type="input" inputType="email" placeholder="Введите значение"
                    @changeValueInput="(str) => changeValueInput(str, 'email')"/>
         <UserInput title="Пароль" type="input" inputType="password" placeholder="Введите пароль"
                    @changeValueInput="(str) => changeValueInput(str, 'password')"/>
         <UserInput v-if="isReg" title="Пароль ещё раз" type="input" inputType="password" placeholder="Введите пароль"
                    @changeValueInput="(str) => changeValueInput(str, 'confirm_password')"/>
-        <BaseBtn v-if="loginBtnInDialogBody" :title="textForBtn" @click="tryAuth"/>
+        <BaseBtn v-if="loginBtnInDialogBody" :title="textForBtn" @click="auth"/>
       </form>
     </template>
     <template #dialogFooter>
@@ -83,7 +77,7 @@ async function tryAuth() {
               {{ isReg ? 'Войдите' : 'Зарегистрируйтесь' }}
             </RouterLink>
           </div>
-          <BaseBtn v-if="!loginBtnInDialogBody" :title="textForBtn" @click="tryAuth"/>
+          <BaseBtn v-if="!loginBtnInDialogBody" :title="textForBtn" @click="auth"/>
         </div>
         <div class="dialog-auth__errors" v-if="errors">
           <div class="error__message" v-for="item in errors" :key="Date.now()">
@@ -131,6 +125,7 @@ async function tryAuth() {
     display: flex;
     flex-direction: column;
     gap: .5rem;
+
     .error__message {
       color: #FF7461;
       background-color: #FF74611A;

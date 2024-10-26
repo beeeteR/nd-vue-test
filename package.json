@@ -16,8 +16,11 @@
     "axios": "^1.7.7",
     "pinia": "^2.2.4",
     "sass": "^1.80.4",
+    "universal-cookie": "^7.2.1",
     "vue": "^3.5.12",
-    "vue-router": "^4.4.5"
+    "vue-router": "^4.4.5",
+    "vue3-cookies": "^1.0.6",
+    "vue3-middleware": "^1.0.0"
   },
   "devDependencies": {
     "@tsconfig/node20": "^20.1.4",
