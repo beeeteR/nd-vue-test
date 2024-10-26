@@ -39,6 +39,7 @@ function delNote() {
   position: relative;
   display: flex;
   flex-direction: column;
+  height: fit-content;
   background-color: map-get($colors, 'green-light');
   color: map-get($colors, 'white');
   border-radius: 12px;
@@ -46,6 +47,15 @@ function delNote() {
 
   &__header {
     border-bottom: 1px solid map-get($colors, 'green');
+    .note__title {
+      padding-right: 12px;
+    }
+  }
+
+
+  &__body, .note__title {
+    white-space: break-spaces;
+    word-break: break-all;
   }
 
   &__footer {

@@ -1,35 +1,37 @@
 <script setup lang="ts">
 
 import {useUserStore} from "@/stores/userStore";
-import {computed, nextTick, ref} from "vue";
-import {userApiMethods} from "@/utils/api/user";
-import {useCookies} from "vue3-cookies";
+import {computed, ref} from "vue";
+import {tryLogout} from "@/composables/logout";
 import {useRouter} from "vue-router";
 
 const userStore = useUserStore()
 const userInfo = computed(() => userStore.getUserInfo)
+const router = useRouter()
 const stateActionList = ref<boolean>(false)
-const token = useCookies().cookies.get('accessToken')
+const slicedEmail = computed(() => {
+  return userInfo.value.email ?
+    userInfo.value.email.length > 25 ?
+      `${userInfo.value.email.slice(0, 25)}...` :
+      userInfo.value.email :
+    'email'
+})
 
 function changeStateActionList() {
   stateActionList.value = !stateActionList.value
 }
 
 async function logout() {
-  await userApiMethods.logout(token).then(() => {
-    nextTick(() => {
-      useCookies().cookies.remove('accessToken')
-      useRouter().push('/')
-    })
-  })
-
+  await tryLogout()
+  await router.isReady()
+  router.push('/')
 }
 
 </script>
 
 <template>
   <div class="user__btn" @click="changeStateActionList">
-    <span class="user__email --text-small">{{ userInfo.email }}</span>
+    <span class="user__email --text-small">{{ slicedEmail }}</span>
     <div class="user__icon">
       <img src="@/assets/icons/user.svg" alt="user icon">
     </div>
@@ -47,6 +49,7 @@ async function logout() {
     align-items: center;
     gap: 12px;
     cursor: pointer;
+    z-index: 10;
   }
 
   &__icon {

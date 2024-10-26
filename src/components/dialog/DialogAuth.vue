@@ -3,7 +3,7 @@ import DialogBase from "@/components/dialog/DialogBase.vue";
 import UserInput from "@/components/ui/UserInput.vue";
 import BaseBtn from "@/components/ui/BaseBtn.vue";
 import {computed, onMounted, onUnmounted, reactive, ref} from "vue";
-import {useRoute} from "vue-router";
+import {useRoute, useRouter} from "vue-router";
 import {type IRegister} from "@/utils/api/user";
 import {tryAuth} from '@/composables/auth'
 import {useModalStore} from "@/stores/modalStore";
@@ -17,6 +17,7 @@ const authData = reactive<IRegister>({
 let errors = ref<string[]>()
 const loginBtnInDialogBody = ref<boolean>()
 const route = computed(() => useRoute())
+const router = useRouter()
 const isReg = computed(() => route.value.name === 'reg')
 const textForBtn = computed(() => isReg.value ? 'Зарегистрироваться' : 'Войти')
 
@@ -40,6 +41,8 @@ async function auth() {
   if (resultAuth !== 'ok') errors.value = resultAuth
   else {
     useModalStore().changeModalState()
+    await router.isReady()
+    router.push('/notes')
   }
 }
 
@@ -54,9 +57,9 @@ async function auth() {
       <form class="dialog-auth__form" autocomplete="on">
         <UserInput title="Email" type="input" inputType="email" placeholder="Введите значение"
                    @changeValueInput="(str) => changeValueInput(str, 'email')"/>
-        <UserInput title="Пароль" type="input" inputType="password" placeholder="Введите пароль"
+        <UserInput title="Пароль" type="input" inputType="password" placeholder="Введите пароль" :length="{min: 4, max:12}"
                    @changeValueInput="(str) => changeValueInput(str, 'password')"/>
-        <UserInput v-if="isReg" title="Пароль ещё раз" type="input" inputType="password" placeholder="Введите пароль"
+        <UserInput v-if="isReg" title="Пароль ещё раз" type="input" inputType="password" placeholder="Введите пароль" :length="{min: 4, max:12}"
                    @changeValueInput="(str) => changeValueInput(str, 'confirm_password')"/>
         <BaseBtn v-if="loginBtnInDialogBody" :title="textForBtn" @click="auth"/>
       </form>

@@ -45,9 +45,9 @@ function addNote() {
     </template>
     <template #dialogBody>
       <form class="dialog-create-note__form">
-        <UserInput title="Название заметки" type="input" inputType="text" placeholder="Введите название"
+        <UserInput title="Название заметки" type="input" inputType="text" placeholder="Введите название" :length="{min: 1, max: 64}"
                    show-length @changeValueInput="(str) => changeValueInput(str, 'title')"/>
-        <UserInput title="Текст заметки" type="area" placeholder="Введите текст"
+        <UserInput title="Текст заметки" type="area" placeholder="Введите текст" :length="{min: 1, max: 255}"
                    show-length @changeValueInput="(str) => changeValueInput(str, 'content')"/>
         <BaseBtn title="Добавить" @click.prevent="addNote" class="dialog-create-note__form-btn"/>
       </form>

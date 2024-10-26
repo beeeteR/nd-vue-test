@@ -13,7 +13,11 @@ function closeDialog() {
 <template>
   <div class="dialog__wrapper" :class="{'dialog-active': modalStore.getModalState}">
     <div class="dialog__content">
-      <BaseBtn icon="@/assets/icons/close.svg" round @click="closeDialog" class="dialog__close-btn"/>
+      <BaseBtn round @click="closeDialog" class="dialog__close-btn">
+        <template #btnIcon>
+          <img src="@/assets/icons/close.svg" alt="btn icon">
+        </template>
+      </BaseBtn>
       <div class="dialog__header">
         <slot name="dialogHeader"></slot>
       </div>
@@ -40,6 +44,7 @@ function closeDialog() {
     height: 100vh;
     transform: scale(0);
     background-color: transparentize(map-get($colors, 'dark'), 0.3);
+    z-index: 100;
   }
 
   &__header {
@@ -71,6 +76,8 @@ function closeDialog() {
     position: absolute;
     top: 20px;
     right: 20px;
+    padding: 20px;
+    gap: 0;
   }
 
   &-active {

@@ -21,13 +21,13 @@ function btnClicked() {
   emits('btnClicked', props.disabled ? 'disabled' : props.func ? props.func() : 'clicked')
 }
 
-const iconPath = computed(() => `@/assets/icons/${props.icon}`)
+const iconPath = computed(() => `@/assets/icons/${props.iconFileName}`)
 
 </script>
 
 <template>
   <button class="btn" :class="{'btn-round': round}" :disabled="disabled" @click="btnClicked">
-<!--    <img :src="require(iconPath)" alt="btn-icon">-->
+    <slot name="btnIcon"></slot>
     <span class="btn__title">{{ title }}</span>
   </button>
 
@@ -61,7 +61,8 @@ const iconPath = computed(() => `@/assets/icons/${props.icon}`)
   }
 
   &__icon {
-    padding: 12px 24px;
+    height: fit-content;
+    width: fit-content;
   }
 
   &-round {

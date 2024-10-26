@@ -1,5 +1,6 @@
 <script setup lang="ts">
-import {computed, ref, watch} from "vue"
+import {computed, ref, watch, watchEffect} from "vue"
+import {useModalStore} from "@/stores/modalStore";
 
 enum ETypeUserInput {
   'input',
@@ -17,7 +18,11 @@ interface IUserInputPropsBase {
   title: string,
   placeholder: string,
   textError?: string,
-  showLength?: true
+  showLength?: true,
+  length?: {
+    min: number
+    max: number
+  }
 }
 
 interface IUserInputPropsBaseInput extends IUserInputPropsBase {
@@ -36,16 +41,19 @@ type IUserInputEmits = {
 }
 
 
-const maxlengthInputField = {
-  input: 100,
-  area: 500
-}
 const props = defineProps<TUserInputProps>()
 const emits = defineEmits<IUserInputEmits>()
+const modalState = computed(() => useModalStore().getModalState)
 const userInput = ref('')
 const inputElem = ref(null)
 const isPassword = ref<boolean>(props.inputType === "password")
-const userInputLength = computed(() => `${userInput.value.length}/${props.type === 'input' ? maxlengthInputField.input : maxlengthInputField.area}`)
+const inputLength = computed(() => {
+  if (props.length) return {min: props.length.min, max: props.length.max}
+  else return {min: 0, max: 100}
+})
+const userInputLength = computed(() => {
+  return `${userInput.value.length}/${inputLength.value.max}`
+})
 
 function setInputType(type: 'password' | 'text') {
   if (inputElem.value) {
@@ -55,10 +63,14 @@ function setInputType(type: 'password' | 'text') {
 }
 
 watch(userInput, () => {
-  if (userInput.value.length > maxlengthInputField[props.type]) {
-    userInput.value = userInput.value.slice(0, maxlengthInputField[props.type])
+    if (userInput.value.length > inputLength.max) {
+      userInput.value = userInput.value.slice(0, inputLength.max)
   }
   emits('changeValueInput', userInput.value)
+})
+
+watchEffect(() => {
+  if (!modalState.value) userInput.value = ''
 })
 
 </script>
@@ -68,7 +80,7 @@ watch(userInput, () => {
     <span class="user-input__title --text-small">{{ title }}</span>
     <span v-if="type === 'input'" class="input__wrapper">
         <input :type="inputType" v-model="userInput" ref="inputElem" class="user-input__elem --text-small"
-               :placeholder="placeholder" :maxlength="maxlengthInputField.input">
+               :placeholder="placeholder" :maxlength="inputLength.max" :minlength="inputLength.min">
         <span v-if="inputType === 'password'" class="password__visibility">
           <img v-show="isPassword" src="@/assets/icons/on-password.svg" alt="on-password" @click="setInputType('text')">
           <img v-show="!isPassword" src="@/assets/icons/off-password.svg" alt="off-password"
@@ -76,7 +88,8 @@ watch(userInput, () => {
         </span>
       </span>
     <textarea v-else v-model="userInput" class="user-input__elem --user-input__area --text-small"
-              :placeholder="placeholder" :maxlength="maxlengthInputField.area"></textarea>
+              :placeholder="placeholder" :maxlength="inputLength.max"
+              :minlength="inputLength.min"></textarea>
     <span class="user-input__info --text-small">
       <span class="user-input__error" v-show="textError">{{ textError }}</span>
       <span v-if="showLength" class="user-input__text-length">{{ userInputLength }}</span>
@@ -111,7 +124,7 @@ watch(userInput, () => {
 
       &:hover,
       &:active,
-      &:focus{
+      &:focus {
         outline: 2px solid map-get($colors, 'green-light');
       }
 

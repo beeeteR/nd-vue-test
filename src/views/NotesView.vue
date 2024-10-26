@@ -50,6 +50,12 @@ function openModal() {
       background-color: map-get($colors, 'green-light');
       border-radius: 50%;
       cursor: pointer;
+      @media #{map-get($display-rules, 'lg')} {
+        right: 12px;
+      }
+      @media #{map-get($display-rules, 'sm')} {
+        right: 8px;
+      }
     }
 
     &__items {
