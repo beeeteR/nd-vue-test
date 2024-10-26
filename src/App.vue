@@ -23,7 +23,7 @@ if (token) {
 
 <style lang="scss">
 .app-main {
+  flex-grow: 1;
   background-color: map-get($colors, 'dark');
-  height: 100%;
 }
 </style>

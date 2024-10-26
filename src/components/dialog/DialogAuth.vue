@@ -2,12 +2,11 @@
 import DialogBase from "@/components/dialog/DialogBase.vue";
 import UserInput from "@/components/ui/UserInput.vue";
 import BaseBtn from "@/components/ui/BaseBtn.vue";
-import {computed, onMounted, onUnmounted, reactive, ref, watch} from "vue";
-import {useRoute, useRouter} from "vue-router";
+import {computed, onMounted, onUnmounted, reactive, ref} from "vue";
+import {useRoute} from "vue-router";
 import {type IRegister} from "@/utils/api/user";
 import {tryAuth} from '@/composables/auth'
 import {useModalStore} from "@/stores/modalStore";
-import {useUserStore} from "@/stores/userStore";
 
 
 const authData = reactive<IRegister>({
@@ -79,7 +78,7 @@ async function auth() {
           </div>
           <BaseBtn v-if="!loginBtnInDialogBody" :title="textForBtn" @click="auth"/>
         </div>
-        <div class="dialog-auth__errors" v-if="errors">
+        <div class="dialog__errors" v-if="errors">
           <div class="error__message" v-for="item in errors" :key="Date.now()">
             <span class="--text-small">{{ item }}</span>
           </div>
@@ -118,19 +117,6 @@ async function auth() {
       width: 100%;
       justify-content: space-between;
       flex-wrap: wrap;
-    }
-  }
-
-  &__errors {
-    display: flex;
-    flex-direction: column;
-    gap: .5rem;
-
-    .error__message {
-      color: #FF7461;
-      background-color: #FF74611A;
-      padding: 8px 20px;
-      border-radius: 24px;
     }
   }
 }

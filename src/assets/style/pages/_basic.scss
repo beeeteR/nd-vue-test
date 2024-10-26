@@ -5,13 +5,15 @@
   color: map-get($colors, 'white');
 }
 
-html, body {
-  height: 100vh;
+html, body, #app {
+  height: 100%;
 }
 
 #app {
-  height: 100%;
+  display: flex;
+  flex-direction: column;
 }
+
 
 h1 {
   font-weight: 900;
@@ -74,6 +76,7 @@ a {
 
 .section-wrapper {
   padding: 40px 160px;
+  height: 100%;
 
   @media #{map-get($display-rules, 'lg')} {
     padding: 20px 80px;

@@ -76,6 +76,19 @@ function closeDialog() {
   &-active {
     transform: scale(1);
   }
+
+  &__errors {
+    display: flex;
+    flex-direction: column;
+    gap: .5rem;
+
+    .error__message {
+      color: #FF7461;
+      background-color: #FF74611A;
+      padding: 8px 20px;
+      border-radius: 24px;
+    }
+  }
 }
 
 </style>

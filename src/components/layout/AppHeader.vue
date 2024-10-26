@@ -1,8 +1,12 @@
 <script setup lang="ts">
 import BaseBtn from "@/components/ui/BaseBtn.vue";
 import {useModalStore} from "@/stores/modalStore";
+import {useUserStore} from "@/stores/userStore";
+import HeaderUser from "@/components/layout/HeaderUser.vue";
 
 const modalStore = useModalStore()
+const userStore = useUserStore()
+const userInfo = userStore.getUserInfo
 
 function openModalAuth() {
   modalStore.changeModalState()
@@ -15,7 +19,8 @@ function openModalAuth() {
     <RouterLink to="/" class="logo">
       <img src="@/assets/img/logo.png" alt="logo">
     </RouterLink>
-    <BaseBtn title="Вход" iconFileName="login.svg" @click="openModalAuth" />
+    <BaseBtn v-if="userInfo.id === -1" title="Вход" iconFileName="login.svg" @click="openModalAuth" />
+    <HeaderUser v-else />
   </header>
 </template>
 

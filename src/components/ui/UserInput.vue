@@ -8,7 +8,8 @@ enum ETypeUserInput {
 
 enum EInputType {
   'email',
-  'password'
+  'password',
+  'text'
 }
 
 interface IUserInputPropsBase {
@@ -109,7 +110,8 @@ watch(userInput, () => {
       }
 
       &:hover,
-      &:active {
+      &:active,
+      &:focus{
         outline: 2px solid map-get($colors, 'green-light');
       }
 

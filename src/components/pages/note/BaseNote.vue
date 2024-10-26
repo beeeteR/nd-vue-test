@@ -1,10 +1,19 @@
 <script setup lang="ts">
-interface IBaseNoteProps {
-  title: string,
-  text: string
+import {type IResponseNoteData, notesApiMethods} from "@/utils/api/notes";
+import {useCookies} from "vue3-cookies";
+import {useNotesStore} from "@/stores/notesStore";
+
+
+const props = defineProps<IResponseNoteData>()
+const token = useCookies().cookies.get('accessToken')
+const notesStore = useNotesStore()
+
+function delNote() {
+  notesApiMethods.deleteNote(props.id, token).then(() => {
+    notesStore.delNote(props.id)
+  })
 }
 
-const props = defineProps<IBaseNoteProps>()
 </script>
 
 <template>
@@ -13,10 +22,10 @@ const props = defineProps<IBaseNoteProps>()
       <h4 class="note__title">{{ title }}</h4>
     </div>
     <div class="note__body">
-      <p class="--text">{{ text }}</p>
+      <p class="--text">{{ content }}</p>
     </div>
     <div class="note__footer">
-      <div class="note__delete">
+      <div class="note__delete" @click="delNote">
         <img src="@/assets/icons/close.svg" alt="Delete note icon">
         <span class="--text">Удалить</span>
       </div>

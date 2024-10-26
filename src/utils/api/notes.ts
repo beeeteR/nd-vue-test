@@ -1,9 +1,14 @@
 import {API_SETTINGS, type token} from './main'
 import axios from "axios";
+import {requestHandler} from "@/utils/api/apiHandlers";
 
-interface ICreateNote {
+export interface INoteData {
   title: string,
   content: string
+}
+
+export interface IResponseNoteData extends INoteData {
+  id: number
 }
 
 const methods = {
@@ -18,19 +23,8 @@ const methods = {
   }
 }
 
-
 export const notesApiMethods = {
-  getNotes: async (token: token) =>
-    await axios.get(API_SETTINGS.url + methods.get.getNotes,
-      {
-        headers: {Authorization: `Bearer ${token}`}
-      }),
-  createNote: async (data: ICreateNote, token: token) =>
-    await axios.post(API_SETTINGS.url + methods.post.createNote, data, {
-      headers: {Authorization: `Bearer ${token}`}
-    }),
-  deleteNote: async (noteId: number, token: token) =>
-    await axios.delete(API_SETTINGS.url + methods.delete.deleteNote(noteId), {
-      headers: {Authorization: `Bearer ${token}`}
-    })
+  getNotes:  (token: token) => requestHandler(axios.get(API_SETTINGS.url + methods.get.getNotes, {headers: {Authorization: `Bearer ${token}`}})),
+  createNote:  (data: INoteData, token: token) => requestHandler(axios.post(API_SETTINGS.url + methods.post.createNote, data, {headers: {Authorization: `Bearer ${token}`}})),
+  deleteNote:  (noteId: number, token: token) => requestHandler(axios.delete(API_SETTINGS.url + methods.delete.deleteNote(noteId), {headers: {Authorization: `Bearer ${token}`}}))
 }
