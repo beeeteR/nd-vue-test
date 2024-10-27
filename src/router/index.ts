@@ -10,7 +10,8 @@ const router = createRouter({
       name: 'home',
       component: () => import('../views/HomeView.vue'),
       meta: {
-        middlewares: [guest]
+        title: 'ND vue-test home',
+        middlewares: [guest],
       }
     },
     {
@@ -18,6 +19,7 @@ const router = createRouter({
       name: 'reg',
       component: () => import('../views/HomeView.vue'),
       meta: {
+        title: 'ND vue-test register',
         middlewares: [guest]
       }
     },
@@ -26,6 +28,7 @@ const router = createRouter({
       name: 'notes',
       component: () => import('../views/NotesView.vue'),
       meta: {
+        title: 'ND vue-test notes',
         middlewares: [auth],
         requiredAuth: true
       }

@@ -13,6 +13,7 @@
     "format": "prettier --write src/"
   },
   "dependencies": {
+    "@m-media/vue3-meta-tags": "^0.0.7",
     "axios": "^1.7.7",
     "pinia": "^2.2.4",
     "sass": "^1.80.4",

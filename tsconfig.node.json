@@ -14,7 +14,7 @@
 
     "module": "ESNext",
     "moduleResolution": "Bundler",
-    "types": ["node"],
-    "typeRoots": [ "../node_modules/@types" ]
+    "types": ["@types/node"],
+    "typeRoots": [ "node_modules/@types" ]
   },
 }

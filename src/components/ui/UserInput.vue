@@ -57,14 +57,15 @@ const userInputLength = computed(() => {
 
 function setInputType(type: 'password' | 'text') {
   if (inputElem.value) {
-    inputElem.value.type = type
+    const elem = inputElem.value as HTMLInputElement
+    elem.type = type
     isPassword.value = type === 'password'
   }
 }
 
 watch(userInput, () => {
-    if (userInput.value.length > inputLength.max) {
-      userInput.value = userInput.value.slice(0, inputLength.max)
+    if (userInput.value.length > inputLength.value.max) {
+      userInput.value = userInput.value.slice(0, inputLength.value.max)
   }
   emits('changeValueInput', userInput.value)
 })

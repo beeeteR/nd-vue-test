@@ -1,11 +1,8 @@
 <script setup lang="ts">
 
-import {computed} from "vue";
-
 interface IBaseBtnProps {
   round?: true,
   title?: string,
-  iconFileName?: string,
   disabled?: true,
   func?: (...args: any[]) => any
 }
@@ -20,8 +17,6 @@ const emits = defineEmits<TBaseBtnEmits>()
 function btnClicked() {
   emits('btnClicked', props.disabled ? 'disabled' : props.func ? props.func() : 'clicked')
 }
-
-const iconPath = computed(() => `@/assets/icons/${props.iconFileName}`)
 
 </script>
 
