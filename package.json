@@ -37,7 +37,7 @@
     "sass-resources-loader": "^2.2.5",
     "style-resources-loader": "^1.5.0",
     "typescript": "~5.5.4",
-    "vite": "^5.4.8",
+    "vite": "^5.4.10",
     "vue-tsc": "^2.1.6"
   }
 }
